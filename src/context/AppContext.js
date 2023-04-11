@@ -30,7 +30,7 @@ export const AppProvider = ({ children }) => {
 
          try {
             if (token != 'null') {
-               api.defaults.headers.Authorization = `Bearer ${token}`
+               api.defaults.headers.authorization = `Bearer ${token}`
                
                const response = await api.post('/user/loginbytoken')
                const { data: user } = response;

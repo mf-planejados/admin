@@ -58,10 +58,10 @@ export const editCompany = async ({ id, companyData }) => {
 
 export const uploadFile = async (data) => {
 
-   const { formData, category = null } = data;
+   const { formData, category = null, categoryId = null } = data;
 
    try {
-      const response = await api.post(`/upload/${category}`, formData)
+      const response = await api.post(`/upload/${categoryId}/${category}`, formData)
 
       console.log('resposta', response)
       return response
@@ -70,18 +70,18 @@ export const uploadFile = async (data) => {
    }
 }
 
-export const deleteFile = async ({ fileId, companyId }) => {
+export const deleteFile = async ({ fileId, categoryId }) => {
    try {
-      const response = await api.delete(`/upload/${fileId}`)
+      const response = await api.delete(`/upload/${fileId}?companyId=${categoryId}`)
       return response
    } catch (error) {
       return error
    }
 }
 
-export const getFilesByCompany = async (companyId) => {
+export const getFilesByCategory = async (categoryId) => {
    try {
-      const response = await api.get(`/files/${companyId}`)
+      const response = await api.get(`/files/${categoryId}`)
       return response
    } catch (error) {
       return error

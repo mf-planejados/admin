@@ -199,7 +199,7 @@ const MenuItem = (props) => {
                :
                {
                   "&:hover": {
-                     backgroundColor: 'darkgray' + '22',
+                     backgroundColor: Colors.darkRed + '22',
                   }
                }),
          }}>

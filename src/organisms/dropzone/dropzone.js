@@ -13,10 +13,9 @@ export const CustomDropzone = (props) => {
 
 
    const { setLoading, alert } = useAppContext()
-   const { callback = () => { }, categorySelect } = props;
+   const { callback = () => { }, categorySelect, categoryId = null } = props;
 
    let category = categorySelect?.name || ''
-
 
    const onDropFiles = async (files) => {
       const uploadedFiles = files.map(file => ({
@@ -36,17 +35,12 @@ export const CustomDropzone = (props) => {
    const processUpload = async (uploadedFile) => {
       setLoading(true)
 
-      console.log('primeiro', uploadedFile)
-
       const formData = new FormData()
 
       formData?.append('file', uploadedFile?.file, encodeURIComponent(uploadedFile?.name))
 
-      console.log('depois', Array.from(formData))
-
-
       try {
-         const response = await uploadFile({ formData, category });
+         const response = await uploadFile({ formData, category, categoryId });
          const { data = {}, status } = response;
          const { file = {} } = data;
 

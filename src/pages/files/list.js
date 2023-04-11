@@ -44,17 +44,19 @@ export default function ListFiles(props) {
    const [categorySelect, setCategory] = useState()
 
    const { user, setLoading, } = useAppContext()
+
    const [allFiles, setAllFiles] = useState([])
+   
    const [filesFilter, setFilesFilter] = useState('')
 
-   const totalFiles = allFiles?.length;
-   const filteredCompanies = (item) => item?.category?.toLowerCase().includes(filesFilter.toLowerCase());
+   const totalFiles = allFiles?.reduce((prev, next) => prev + next?.files?.length, 0);
+   const filteredCompanies = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
 
    const getAllFiles = async () => {
       try {
          setLoading(true)
          const response = await getAllFilesRequest()
-         const { data } = response;
+         const { data = [] } = response;
          setAllFiles(data)
          setLoading(false)
       } catch (error) {
@@ -82,24 +84,31 @@ export default function ListFiles(props) {
                style={{ width: '300px' }}
             />
          </Box>
-         <CustomDropzone
-            txt={`Clique ou arraste aqui seus arquivos para upload.`}
-            callback={(file) => {
-               if (file?._id)
-                  getAllFiles()
-            }}
-         />
+
          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-            {allFiles.filter(filteredCompanies).map(item => {
+            {allFiles.filter(filteredCompanies).map(category => {
+               const categoryName = category?.name;
+               const categoryFiles = category.files;
+               const categoryId = category._id;
                return (
-                  <ContentContainer gap={3} key={`list_all_files_${item._id}`}>
+                  <ContentContainer gap={3} key={`list_all_files_${category._id}`}>
                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Text bold>{item.category}</Text>
-                        <Text>{`(${allFiles.length})`}</Text>
+                        <Text bold>{categoryName}</Text>
+                        <Text>{`(${categoryFiles.length})`}</Text>
                      </Box>
+                     <CustomDropzone
+                        txt={`Clique ou arraste aqui seus arquivos para upload.`}
+                        categorySelect={categorySelect}
+                        callback={(file) => {
+                           if (file?._id)
+                              getAllFiles()
+                        }}
+                        categoryId={categoryId}
+                     />
                      <FilesGrid
-                        files={allFiles}
+                        files={categoryFiles}
                         reloadFiles={getAllFiles}
+                        categoryId={categoryId}
                      />
                   </ContentContainer>
                )
@@ -109,7 +118,7 @@ export default function ListFiles(props) {
    )
 }
 
-const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { } }) => {
+const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryId = null }) => {
 
    const { setLoading } = useAppContext()
    const [collapse, setCollapse] = useState(true)
@@ -139,7 +148,7 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { } }) => {
                            <Box sx={styles.deleteFileContainer} onClick={async (event) => {
                               setLoading(true)
                               event.preventDefault();
-                              await deleteFile({ fileId: file?._id })
+                              await deleteFile({ fileId: file?._id, categoryId })
                               setLoading(false)
                               reloadFiles()
                            }}>
