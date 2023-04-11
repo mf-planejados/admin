@@ -6,8 +6,9 @@ import '../styles/globals.css'
 
 const menuItems = [
    { to: '/users/list', text: 'Clientes', icon: 'users_icon'},
-   { to: '/', text: 'Orçamentos', icon: 'companies_icon'},
+   { to: '/budgets/list', text: 'Orçamentos', icon: 'companies_icon'},
    { to: '/files/list', text: 'Arquivos', icon: 'files_icon'},
+   
 ];
 
 function App({ Component, pageProps }) {

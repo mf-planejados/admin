@@ -37,18 +37,19 @@ export const createCompany = async (companyData) => {
    }
 }
 
-export const deleteCompany = async (id) => {
+export const deleteBudget = async (id) => {
    try {
-      const response = await api.delete(`/company/${id}`)
+      const response = await api.delete(`/budget/${id}`)
+      console.log(response)
       return response
    } catch (error) {
       return error
    }
 }
 
-export const editCompany = async ({ id, companyData }) => {
+export const editBudget = async ({ id, budgetData }) => {
    try {
-      const response = await api.patch(`/company/${id}`, { companyData })
+      const response = await api.patch(`/budget/${id}`, { budgetData })
 
       return response
    } catch (error) {
@@ -58,12 +59,10 @@ export const editCompany = async ({ id, companyData }) => {
 
 export const uploadFile = async (data) => {
 
-   const { formData, category = null, categoryId = null } = data;
+   const { formData, category = null, categoryId = null } = data
 
    try {
       const response = await api.post(`/upload/${categoryId}/${category}`, formData)
-
-      console.log('resposta', response)
       return response
    } catch (error) {
       return (error)

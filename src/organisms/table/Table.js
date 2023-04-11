@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { memo, useState } from 'react';
 import { Box, Text } from '../../atoms';
 import { Colors } from '../layout/Colors';
+import { formatDate } from '../../validators/auth-validator';
 
 const getFieldValue = (data, field) => {
    const fieldParts = field.split('.')
@@ -68,7 +69,6 @@ export const Table = (props) => {
                   <Box sx={{ ...styles.rowContainer, borderTop: `1px solid #e8e8e8`, gap }}>
                      {fields.map((field, fieldIndex) => {
                         let value = dataItem?.[field];
-
                         if (typeof value === 'boolean') value = value ? `Sim` : `Não`
                         if (field.includes('.')) value = getFieldValue(dataItem, field);
                         return (
