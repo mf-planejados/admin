@@ -3,6 +3,7 @@ import { Box, ContentContainer, Text } from "../../atoms"
 import { useAppContext } from "../../context/AppContext"
 import { Colors, CustomDropzone, DropList, SearchBar, SectionHeader } from "../../organisms"
 import { deleteFile, getAllFiles as getAllFilesRequest, getFilesByCompany } from "../../validators/api-requests"
+import { formatDate } from "../../validators/auth-validator"
 
 
 const comodos = [
@@ -140,9 +141,12 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                            onMouseOver={() => setShowDownloadOptions({ open: true, index })}
                            onMouseLeave={() => setShowDownloadOptions({ open: false, index: null })}
                         >
-                           <Box sx={{display: 'flex', width: '100%',}}>
+                           <Box sx={{ display: 'flex', width: '100%', }}>
                               <Box sx={styles.gridItemTruncateText}>
                                  <Text small light>{decodeURIComponent(fileName)}</Text>
+                              </Box>
+                              <Box sx={styles.gridItemTruncateText}>
+                                 <Text small light>data: {formatDate({date:file.createdAt})}</Text>
                               </Box>
 
                               <Box sx={styles.deleteFileContainer} onClick={async (event) => {
