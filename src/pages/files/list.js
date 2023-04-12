@@ -46,7 +46,7 @@ export default function ListFiles(props) {
    const { user, setLoading, } = useAppContext()
 
    const [allFiles, setAllFiles] = useState([])
-   
+
    const [filesFilter, setFilesFilter] = useState('')
 
    const totalFiles = allFiles?.reduce((prev, next) => prev + next?.files?.length, 0);
@@ -140,20 +140,34 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                            onMouseOver={() => setShowDownloadOptions({ open: true, index })}
                            onMouseLeave={() => setShowDownloadOptions({ open: false, index: null })}
                         >
-                           <Box sx={fileName?.includes('.jpg') || fileName?.includes('.png') ? styles.icon : styles.iconPdf} />
+                           <Box sx={{display: 'flex', width: '100%',}}>
+                              <Box sx={styles.gridItemTruncateText}>
+                                 <Text small light>{decodeURIComponent(fileName)}</Text>
+                              </Box>
 
-                           <Box sx={styles.gridItemTruncateText}>
-                              <Text small light>{decodeURIComponent(fileName)}</Text>
+                              <Box sx={styles.deleteFileContainer} onClick={async (event) => {
+                                 setLoading(true)
+                                 event.preventDefault();
+                                 await deleteFile({ fileId: file?._id, categoryId })
+                                 setLoading(false)
+                                 reloadFiles()
+                              }}>
+                                 <Text small bold>X</Text>
+                              </Box>
                            </Box>
-                           <Box sx={styles.deleteFileContainer} onClick={async (event) => {
-                              setLoading(true)
-                              event.preventDefault();
-                              await deleteFile({ fileId: file?._id, categoryId })
-                              setLoading(false)
-                              reloadFiles()
-                           }}>
-                              <Text small bold>X</Text>
-                           </Box>
+
+                           <Box sx={{
+                              ...styles.imgGalery,
+                              backgroundImage: `url('${file.url}')`,
+                              width: { xs: `350px`, xm: `250px`, md: `250px`, lg: `250px` },
+                              height: { xs: '300px', xm: '220px', md: '220px', lg: '220px' },
+                              margin: '10px',
+                              "&:hover": {
+                                 opacity: 0.8,
+                                 cursor: 'pointer',
+                                 transition: '.5s'
+                              }
+                           }} />
                         </Box>
                      </a>
                   </>
@@ -195,7 +209,8 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
 
 const styles = {
    filesGridContainer: {
-      display: 'grid',
+      display: 'flex',
+      flexWrap: 'wrap',
       gap: 2,
       justifyContent: 'start',
       gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -224,19 +239,21 @@ const styles = {
    gridItemTruncateText: {
       display: 'flex',
       flex: 1,
+      justifyContent: 'center',
       maxWidth: '100%',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis'
    },
    fileCardContainer: {
-      display: 'flex',
+      // display: 'flex',
       alignItems: 'center',
       position: 'relative',
       padding: 2,
       borderRadius: 3,
-      backgroundColor: Colors.background,
-      // border: `1px solid ${Colors.background}`,
+      width: 'auto',
+      // backgroundColor: Colors.background,
+      border: `1px solid ${Colors.background}`,
       gap: 1,
       overflow: 'hidden',
       // "&:hover": {
@@ -255,5 +272,11 @@ const styles = {
          backgroundColor: '#ddd',
          cursor: 'pointer'
       }
-   }
+   },
+   imgGalery: {
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      // overflow: 'hidden',
+      marginBottom: 3,
+   },
 }

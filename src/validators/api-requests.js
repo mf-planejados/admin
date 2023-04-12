@@ -71,7 +71,7 @@ export const uploadFile = async (data) => {
 
 export const deleteFile = async ({ fileId, categoryId }) => {
    try {
-      const response = await api.delete(`/upload/${fileId}?companyId=${categoryId}`)
+      const response = await api.delete(`/upload/${fileId}?categoryId=${categoryId}`)
       return response
    } catch (error) {
       return error
