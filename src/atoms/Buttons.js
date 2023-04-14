@@ -8,7 +8,8 @@ export const Button = (props) => {
       tertiary = false,
       onClick = () => { },
       text = '',
-      style = {}
+      style = {},
+      textStyle = {}
    } = props;
 
    return (
@@ -36,7 +37,7 @@ export const Button = (props) => {
          }}
          onClick={onClick}
       >
-         <Text style={{ color: 'inherit' }}>{text}</Text>
+         <Text style={{ ...textStyle, color: 'inherit' }}>{text}</Text>
       </Box>
    )
 }
@@ -48,7 +49,7 @@ const styles = {
       alignItems: 'center',
       backgroundColor: Colors.darkRed,
       color: '#f0f0f0',
-      padding: {xs:`6px 10px`, xm: `8px 16px`, md: `8px 16px`,lg: `8px 16px`},
+      padding: { xs: `6px 10px`, xm: `8px 16px`, md: `8px 16px`, lg: `8px 16px` },
       borderRadius: 2,
       "&:hover": {
          backgroundColor: Colors.darkRed + 'dd',

@@ -79,7 +79,7 @@ export const DropList = (props) => {
                         ...(maxHeight && { maxHeight, overflowY: 'scroll' })
                      }}
                   >
-                     <SearchBar placeholder='COGEL, MEC, TJBA...' onChange={setCompaniesFilter} style={{ backgroundColor: Colors.background, marginTop: 5, height: 30, borderRadius: 10, }} />
+                     {/* <SearchBar placeholder='COGEL, MEC, TJBA...' onChange={setCompaniesFilter} style={{ backgroundColor: Colors.background, marginTop: 5, height: 30, borderRadius: 10, }} /> */}
                      {data.filter(filteredCompanies).map((item, index) =>
                         <Box
                            key={`${item._id}_droplist-${index}`}

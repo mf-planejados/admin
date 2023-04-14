@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Box, ContentContainer, Text } from "../../atoms"
+import { Box, Button, ContentContainer, Text, TextInput } from "../../atoms"
 import { useAppContext } from "../../context/AppContext"
 import { Colors, CustomDropzone, DropList, SearchBar, SectionHeader } from "../../organisms"
 import { deleteFile, getAllFiles as getAllFilesRequest, getFilesByCompany } from "../../validators/api-requests"
 import { formatDate } from "../../validators/auth-validator"
+import { Backdrop } from "@mui/material"
 
 
 const comodos = [
@@ -37,13 +38,49 @@ const comodos = [
       name: 'Espaço Externo',
       icon: ''
    },
+   {
+      id: '05',
+      url: '/comodos/area-externa.jpg',
+      name: 'Sócios',
+      icon: ''
+   },
 ]
+
+const sections = [
+   {
+      id: '01',
+      name: 'Ambientes',
+   },
+   {
+      id: '02',
+      name: 'Socios',
+   },
+   {
+      id: '03',
+      name: 'Galeria',
+   },
+]
+
+const levels = [
+   {
+      id: '01',
+      name: 'Sócio',
+   },
+   {
+      id: '02',
+      name: 'Fundador',
+   },
+]
+
 
 export default function ListFiles(props) {
 
 
    const [categorySelect, setCategory] = useState()
-
+   const [sectionsSelect, setSectionsSelect] = useState()
+   const [nameSelect, setNameSelect] = useState()
+   const [levelSelect, setLevelSelect] = useState()
+   const [showExemple, setShowExemple] = useState()
    const { user, setLoading, } = useAppContext()
 
    const [allFiles, setAllFiles] = useState([])
@@ -52,6 +89,13 @@ export default function ListFiles(props) {
 
    const totalFiles = allFiles?.reduce((prev, next) => prev + next?.files?.length, 0);
    const filteredCompanies = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
+
+   const resetFields = () => {
+      setCategory()
+      setSectionsSelect()
+      setNameSelect()
+      setLevelSelect()
+   }
 
    const getAllFiles = async () => {
       try {
@@ -69,15 +113,61 @@ export default function ListFiles(props) {
       getAllFiles()
    }, [])
 
+   const handleChangeName = (value) => {
+      setNameSelect((prevValues) => ({
+         ...prevValues,
+         [value.target.name]: value.target.value,
+      }))
+   }
+
    return (
       <>
          <SectionHeader title={`Arquivos (${totalFiles})`} />
          <SearchBar placeholder='Sala, Quarto, Cozinha...' onChange={setFilesFilter} />
          <Box>
-            <Text style={{ marginLeft: '5px' }}>Selecione um cômodo: </Text>
+            <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+               <Text style={{ marginLeft: '5px' }}>Selecione uma seção:  </Text>
+               <Button text="exemplo" textStyle={{ fontSize: 10, padding: '3px 5px 3px 5px', }} style={{ marginLeft: 2, padding: '3px 3px', }}
+                  onClick={() => setShowExemple(!showExemple)} />
+            </Box>
+            <DropList
+               data={sections}
+               placeholder='ex: Galeria, Sócios, Ambients..'
+               fieldToDisplay='name'
+               selectedOption={sectionsSelect}
+               onSelect={(value) => setSectionsSelect(value)}
+               maxHeight={500}
+               style={{ width: '300px' }}
+            />
+         </Box>
+         {
+            sectionsSelect?.name == "Socios" && <>
+               <Box>
+                  <Text style={{ marginLeft: '5px' }}>Digite o nome do Sócio/Fundador:  </Text>
+                  <TextInput placeholder='ex: Eder Moreira' name='namePerfil' onChange={handleChangeName} value={nameSelect?.name}
+                     InputProps={{
+                        style: {
+                           backgroundColor: '#fff',
+                           width: 300
+                        }
+                     }} />
+               </Box>
+               <DropList
+                  data={levels}
+                  placeholder='Sócio, Fundador'
+                  fieldToDisplay='name'
+                  selectedOption={levelSelect}
+                  onSelect={(value) => setLevelSelect(value)}
+                  maxHeight={500}
+                  style={{ width: '300px' }}
+               />
+            </>
+         }
+         <Box>
+            <Text style={{ marginLeft: '5px' }}>Selecione um Campo: </Text>
             <DropList
                data={comodos}
-               placeholder='Selecione um cômodo'
+               placeholder='Sala, Quarto, Sócio...'
                fieldToDisplay='name'
                selectedOption={categorySelect}
                onSelect={(value) => setCategory(value)}
@@ -103,8 +193,13 @@ export default function ListFiles(props) {
                         callback={(file) => {
                            if (file?._id)
                               getAllFiles()
+                           resetFields()
                         }}
                         categoryId={categoryId}
+                        sectionsSelect={sectionsSelect}
+                        nameSelect={nameSelect}
+                        levelSelect={levelSelect}
+
                      />
                      <FilesGrid
                         files={categoryFiles}
@@ -115,6 +210,48 @@ export default function ListFiles(props) {
                )
             })}
          </Box>
+
+         {showExemple &&
+            <>
+               <Backdrop
+                  sx={{ color: '#fff', zIndex: 9999999999, }}
+                  open={showExemple}
+               >
+                  <Box sx={{
+                     width: { xs: `90%`, sm: '100%', md: '100%', lg: '100%' },
+                     justifyContent: 'center',
+                     alignItems: 'center',
+                     marginTop: 15
+                  }} >
+                     <Box sx={{
+                        backgroundImage: `url('/icons/close_menu_icon.png')`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        marginLeft: '90%',
+                        width: 40,
+                        height: 40,
+                        "&:hover": {
+                           cursor: 'pointer', opacity: 0.8
+                        }
+                     }} onClick={() => setShowExemple(!showExemple)} />
+                     <Box sx={styles.overlay}>
+                        <Box sx={{
+                           ...styles.imgExe,
+                           backgroundImage: `url('/exemplo-ambientes.jpg')`,
+                           width: { xs: `350px`, sm: `600px`, md: `800px`, lg: `800px` },
+                           height: { xs: '300px', sm: '600px', md: '600px', lg: '600px' },
+                           margin: '10px',
+                           "&:hover": {
+                              opacity: 0.8,
+                              cursor: 'pointer',
+                              transition: '.5s'
+                           }
+                        }} />
+                     </Box>
+                  </Box>
+               </Backdrop>
+            </>
+         }
       </>
    )
 }
@@ -135,7 +272,7 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                return (
                   <>
                      {/* <Link key={`${file._id}_list_file_${index}`} href={`${file.url}`} passHref legacyBehavior> */}
-                     <a download={true} key={`${file._id}_list_file_${index}`} href={`${file.url}`}>
+                     <a download={true} key={`${file._id}_list_file_${index}`} href={`${file.url}`} target='_blank'>
                         <Box
                            sx={styles.fileCardContainer}
                            onMouseOver={() => setShowDownloadOptions({ open: true, index })}
@@ -146,7 +283,7 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                                  <Text small light>{decodeURIComponent(fileName)}</Text>
                               </Box>
                               <Box sx={styles.gridItemTruncateText}>
-                                 <Text small light>data: {formatDate({date:file.createdAt})}</Text>
+                                 <Text small light>data: {formatDate({ date: file.createdAt })}</Text>
                               </Box>
 
                               <Box sx={styles.deleteFileContainer} onClick={async (event) => {
@@ -163,8 +300,8 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                            <Box sx={{
                               ...styles.imgGalery,
                               backgroundImage: `url('${file.url}')`,
-                              width: { xs: `350px`, xm: `250px`, md: `250px`, lg: `250px` },
-                              height: { xs: '300px', xm: '220px', md: '220px', lg: '220px' },
+                              width: { xs: `300px`, sm: `250px`, md: `250px`, lg: `250px` },
+                              height: { xs: '200px', sm: '220px', md: '220px', lg: '220px' },
                               margin: '10px',
                               "&:hover": {
                                  opacity: 0.8,
@@ -282,5 +419,17 @@ const styles = {
       backgroundRepeat: 'no-repeat',
       // overflow: 'hidden',
       marginBottom: 3,
+   },
+   imgExe: {
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+   },
+   overlay: {
+      width: '100%',
+      height: '100%',
+      opacity: 0.8,
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex'
    },
 }
