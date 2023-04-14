@@ -13,9 +13,18 @@ export const CustomDropzone = (props) => {
 
 
    const { setLoading, alert } = useAppContext()
-   const { callback = () => { }, categorySelect, categoryId = null } = props;
+   const { callback = () => { }, categorySelect, categoryId = null, nameSelect = null, levelSelect = null, sectionsSelect = null, } = props;
 
-   let category = categorySelect?.name || ''
+
+   let category = categorySelect?.name
+   let namePerfil = nameSelect?.namePerfil
+   let level = levelSelect?.name
+   let section = sectionsSelect?.name
+
+   console.log('nome socio - ',namePerfil)
+   console.log('level - ',level)
+   console.log('seção - ',section)
+
 
    const onDropFiles = async (files) => {
       const uploadedFiles = files.map(file => ({
@@ -40,7 +49,7 @@ export const CustomDropzone = (props) => {
       formData?.append('file', uploadedFile?.file, encodeURIComponent(uploadedFile?.name))
 
       try {
-         const response = await uploadFile({ formData, category, categoryId });
+         const response = await uploadFile({ formData, category, categoryId, namePerfil, level, section });
          const { data = {}, status } = response;
          const { file = {} } = data;
 
@@ -62,7 +71,7 @@ export const CustomDropzone = (props) => {
 
    return (
       <>
-        
+
          <Dropzone accept={{ 'image/jpeg': ['.jpeg', '.jpg'], 'image/png': ['.png'], 'application/pdf': ['.pdf'] }} onDrop={onDropFiles}>
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
                <Box {...getRootProps()}
