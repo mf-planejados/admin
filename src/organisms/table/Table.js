@@ -65,7 +65,7 @@ export const Table = (props) => {
          </Box>
          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {data.map((dataItem, dataIndex) => (
-               <Link key={`data_content_table_${dataIndex}`} style={{ textDecoration: 'none' }} href={to + dataItem._id} target='_blank'>
+               <Link key={`data_content_table_${dataIndex}`} style={{ textDecoration: 'none' }} href={to + dataItem._id}>
                   <Box sx={{ ...styles.rowContainer, borderTop: `1px solid #e8e8e8`, gap }}>
                      {fields.map((field, fieldIndex) => {
                         let value = dataItem?.[field];
