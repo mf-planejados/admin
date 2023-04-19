@@ -27,28 +27,30 @@ export const LeftMenu = ({ menuItems = [] }) => {
       <>
          {!navBar ? <>
             <Box sx={styles.leftMenuMainContainer}>
-               <Box sx={{
-                  ...styles.icon,
-                  backgroundImage: `url('/logo.png')`,
-                  mixBlendMode: 'multiply',
-                  backgroundSize: 'contain',
-                  width: 1,
-                  height: 40,
-                  marginTop: 1,
-                  "&:hover": {
-                     cursor: 'pointer', opacity: 0.8
-                  }
-               }} onClick={() => router.push('/')} />
-               < Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                  {menuItems.map((item, index) =>
-                     <MenuItem
-                        currentPage={item.to.includes(pathname)}
-                        key={`${index}_${item.to}`}
-                        to={item.to}
-                        text={item.text}
-                        icon={item.icon}
-                     />
-                  )}
+               <Box sx={{position: 'fixed', mixBlendMode: 'multiply',}}>
+                  <Box sx={{
+                     ...styles.icon,
+                     backgroundImage: `url('/logo.png')`,
+                     mixBlendMode: 'multiply',
+                     backgroundSize: 'contain',
+                     width: 1,
+                     height: 40,
+                     marginTop: 1,
+                     "&:hover": {
+                        cursor: 'pointer', opacity: 0.8
+                     }
+                  }} onClick={() => router.push('/')} />
+                  < Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, marginTop: 4 }}>
+                     {menuItems.map((item, index) =>
+                        <MenuItem
+                           currentPage={item.to.includes(pathname)}
+                           key={`${index}_${item.to}`}
+                           to={item.to}
+                           text={item.text}
+                           icon={item.icon}
+                        />
+                     )}
+                  </Box>
                </Box>
                <Box sx={{ ...styles.userBox, ...(!showMenuUser && { "&:hover": { backgroundColor: '#00000010', } }) }} onClick={() => setShowMenuUser(!showMenuUser)}>
                   <Box
@@ -87,7 +89,8 @@ export const LeftMenu = ({ menuItems = [] }) => {
                </Box>
             </Box>
          </>
-            : <>
+            :
+            <>
 
                <Box sx={styles.menuResponsive}>
                   <Box sx={{
@@ -220,10 +223,12 @@ const styles = {
       flexDirection: 'column',
       alignItems: 'center',
       minHeight: '100vh',
+      minWidth: '223px',
       backgroundColor: '#f9f9f9',
       borderRight: `1px solid #00000010`,
       padding: `40px 20px`,
       gap: 4,
+      overFlow: 'scroll'
    },
    userBox: {
       backgroundColor: '#00000017',

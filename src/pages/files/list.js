@@ -278,9 +278,9 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                            onMouseOver={() => setShowDownloadOptions({ open: true, index })}
                            onMouseLeave={() => setShowDownloadOptions({ open: false, index: null })}
                         >
-                           <Box sx={{ display: 'flex', width: '100%', }}>
+                           <Box sx={{ display: 'flex', width: '100%', textOverflow: 'ellipsis'}}>
                               <Box sx={styles.gridItemTruncateText}>
-                                 <Text small light>{decodeURIComponent(fileName)}</Text>
+                                 <Text small light style={{textOverflow: 'ellipsis',overflow: 'hidden',}}>{decodeURIComponent(fileName)}</Text>
                               </Box>
                               <Box sx={styles.gridItemTruncateText}>
                                  <Text small light>data: {formatDate({ date: file.createdAt })}</Text>
@@ -384,7 +384,8 @@ const styles = {
       maxWidth: '100%',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      textOverflow: 'ellipsis'
+      textOverflow: 'ellipsis',
+      width: 80
    },
    fileCardContainer: {
       // display: 'flex',
@@ -400,6 +401,7 @@ const styles = {
       // "&:hover": {
       //    border: `1px solid #bbb`
       // }
+      
    },
    deleteFileContainer: {
       display: 'flex',
