@@ -13,18 +13,11 @@ export const CustomDropzone = (props) => {
 
 
    const { setLoading, alert } = useAppContext()
-   const { callback = () => { }, categorySelect, categoryId = null, nameSelect = null, levelSelect = null, sectionsSelect = null, } = props;
+   const { callback = () => { }, categoryId = null, nameSelect = null, levelSelect = null, sectionsSelect = null, } = props;
 
-
-   let category = categorySelect?.name
    let namePerfil = nameSelect?.namePerfil
    let level = levelSelect?.name
    let section = sectionsSelect?.name
-
-   console.log('nome socio - ',namePerfil)
-   console.log('level - ',level)
-   console.log('seção - ',section)
-
 
    const onDropFiles = async (files) => {
       const uploadedFiles = files.map(file => ({
@@ -49,7 +42,7 @@ export const CustomDropzone = (props) => {
       formData?.append('file', uploadedFile?.file, encodeURIComponent(uploadedFile?.name))
 
       try {
-         const response = await uploadFile({ formData, category, categoryId, namePerfil, level, section });
+         const response = await uploadFile({ formData, categoryId, namePerfil, level, section });
          const { data = {}, status } = response;
          const { file = {} } = data;
 

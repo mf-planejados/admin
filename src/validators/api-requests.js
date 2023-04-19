@@ -59,10 +59,10 @@ export const editBudget = async ({ id, budgetData }) => {
 
 export const uploadFile = async (data) => {
 
-   const { formData, category = null, categoryId = null, namePerfil = null, level = null, section = null, } = data
+   const { formData, categoryId = null, namePerfil = null, level = null, section = null, } = data
 
    try {
-      const response = await api.post(`/upload/${categoryId}/${category}/${namePerfil}/${level}/${section}`, formData)
+      const response = await api.post(`/upload/${categoryId}/${namePerfil}/${level}/${section}`, formData)
       return response
    } catch (error) {
       return (error)

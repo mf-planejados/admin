@@ -75,8 +75,6 @@ const levels = [
 
 export default function ListFiles(props) {
 
-
-   const [categorySelect, setCategory] = useState()
    const [sectionsSelect, setSectionsSelect] = useState()
    const [nameSelect, setNameSelect] = useState()
    const [levelSelect, setLevelSelect] = useState()
@@ -91,7 +89,6 @@ export default function ListFiles(props) {
    const filteredCompanies = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
 
    const resetFields = () => {
-      setCategory()
       setSectionsSelect()
       setNameSelect()
       setLevelSelect()
@@ -163,18 +160,6 @@ export default function ListFiles(props) {
                />
             </>
          }
-         <Box>
-            <Text style={{ marginLeft: '5px' }}>Selecione um Campo: </Text>
-            <DropList
-               data={comodos}
-               placeholder='Sala, Quarto, Sócio...'
-               fieldToDisplay='name'
-               selectedOption={categorySelect}
-               onSelect={(value) => setCategory(value)}
-               maxHeight={215}
-               style={{ width: '300px' }}
-            />
-         </Box>
 
          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             {allFiles.filter(filteredCompanies).map(category => {
@@ -189,7 +174,6 @@ export default function ListFiles(props) {
                      </Box>
                      <CustomDropzone
                         txt={`Clique ou arraste aqui seus arquivos para upload.`}
-                        categorySelect={categorySelect}
                         callback={(file) => {
                            if (file?._id)
                               getAllFiles()
