@@ -1,7 +1,7 @@
 import { useMediaQuery, useTheme } from "@mui/material"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Box, Text } from "../../atoms"
 import { useAppContext } from "../../context/AppContext"
 import { Colors } from "./Colors"
@@ -29,13 +29,9 @@ export const LeftMenu = ({ menuItems = [] }) => {
    const theme = useTheme()
    const navBar = useMediaQuery(theme.breakpoints.down('md'))
 
-   const handleMouseShow = () => {
-      setShowSubMenu(true)
-   }
-
-   const handleMouseLeave = () => {
+   useEffect(() => {
       setShowSubMenu(false)
-   }
+   }, [router.pathname])
 
    return (
       <>
@@ -68,12 +64,14 @@ export const LeftMenu = ({ menuItems = [] }) => {
                               icon={item.icon}
                               showSubMenu={showSubMenu}
                               submenus={item.items}
-                              onPress={() => setShowSubMenu(!showSubMenu)}
+                              onPress={() => {
+                                 setShowSubMenu(!showSubMenu)
+                              }}
                            />
                         )}
                      </Box>
                   </Box>
-                
+
                   <Box sx={{
                      display: 'flex',
                      justifyContent: 'center',
@@ -284,7 +282,7 @@ const MenuItem = (props) => {
 
 const SubMenu = (props) => {
 
-   const { showSubMenu = false, submenus = [], onClick = () => { }} = props;
+   const { showSubMenu = false, submenus = [], onClick = () => { } } = props;
 
    return (
       <Box sx={{
@@ -296,22 +294,24 @@ const SubMenu = (props) => {
          position: 'absolute',
          top: 55,
          zIndex: 99999999,
-         boxShadow: submenus.length > 1 &&`rgba(149, 157, 165, 0.17) 0px 6px 24px`,
+         boxShadow: submenus.length > 1 && `rgba(149, 157, 165, 0.17) 0px 6px 24px`,
          // width: '20%',
          boxSizing: 'border-box',
       }}>
          {submenus?.map((subMenu, index) => (
-            <Link href={subMenu.to} onClick={() => {onClick}}>
+            <Link href={subMenu.to} onClick={(event) => {
+               onClick
+            }}>
                <Box sx={{
                   display: 'flex', gap: 1.5, alignItems: 'center', color: 'inherit', flexDirection: 'column',
                   "&:hover": {
                      color: `${Colors.darkRed}`,
                   },
-                  
+
                }}>
                   <Text style={{
                      color: 'inherit',
-                   
+
                   }}>{subMenu?.text}</Text>
                </Box>
             </Link>
