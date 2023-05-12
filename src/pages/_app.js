@@ -5,10 +5,40 @@ import { Colors, LeftMenu } from '../organisms'
 import '../styles/globals.css'
 
 const menuItems = [
-   { to: '/users/list', text: 'Clientes', icon: 'users_icon'},
-   { to: '/budgets/list', text: 'Orçamentos', icon: 'companies_icon'},
-   { to: '/files/list', text: 'Arquivos', icon: 'files_icon'},
-   
+   {
+      to: '/users/list',
+      text: 'Clientes',
+      icon: 'users_icon'
+   },
+   {
+      to: '/budgets/list',
+      text: 'Orçamentos',
+      icon: 'companies_icon'
+   },
+
+   {
+      to: '/files/list',
+      text: 'Arquivos',
+      icon: 'files_icon',
+      items:[
+         {
+            to: '/files/ambients/list',
+            text: 'Ambientes',
+            icon: 'files_icon',
+         },
+         {
+            to: '/files/banner/list',
+            text: 'Banner',
+            icon: 'files_icon',
+         },
+         {
+            to: '/files/teams/list',
+            text: 'Equipe',
+            icon: 'files_icon',
+         },
+      ]
+   },
+
 ];
 
 function App({ Component, pageProps }) {
@@ -45,6 +75,6 @@ const styles = {
       padding: { xs: `30px`, xm: `25px`, md: `50px`, lg: `50px` },
       paddingBottom: `60px`,
       overflowY: 'hidden',
-      marginTop: { xs: `60px`, xm: `0px`, md: `0px`, lg: `0px` }
+      marginTop: { xs: `60px`, xm: `40px`, md: `40px`, lg: `40px` }
    },
 }

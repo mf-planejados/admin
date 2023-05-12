@@ -17,7 +17,7 @@ export const CustomDropzone = (props) => {
 
    let namePerfil = nameSelect?.namePerfil
    let level = levelSelect?.name
-   let section = sectionsSelect?.name
+   let section = sectionsSelect
 
    const onDropFiles = async (files) => {
       const uploadedFiles = files.map(file => ({
