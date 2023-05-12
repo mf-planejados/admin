@@ -1,29 +1,32 @@
 import { useEffect, useState } from "react"
-import { Box, Button, ContentContainer, Text, TextInput } from "../../atoms"
-import { useAppContext } from "../../context/AppContext"
-import { Colors, CustomDropzone, DropList, SearchBar, SectionHeader } from "../../organisms"
-import { deleteFile, getAllFiles as getAllFilesRequest, getFilesByCompany } from "../../validators/api-requests"
-import { formatDate } from "../../validators/auth-validator"
-import { Backdrop } from "@mui/material"
+import { Box, Button, ContentContainer, Text, TextInput } from "../../../atoms"
+import { useAppContext } from "../../../context/AppContext"
+import { Colors, CustomDropzone, DropList, SearchBar, SectionHeader } from "../../../organisms"
+import { deleteFile, getAllFiles as getAllFilesRequest, getFilesByCompany } from "../../../validators/api-requests"
+import { formatDate } from "../../../validators/auth-validator"
 
-export default function ListFiles(props) {
 
-   const [sectionsSelect, setSectionsSelect] = useState()
+export default function ListAmbients(props) {
+
+   const [section, setSectionsSelect] = useState('Ambientes')
    const { user, setLoading, } = useAppContext()
 
    const [allFiles, setAllFiles] = useState([])
+   console.log(allFiles)
 
    const [filesFilter, setFilesFilter] = useState('')
 
-   const totalFiles = allFiles?.reduce((prev, next) => prev + next?.files?.length, 0);
-   const filteredCompanies = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
+   const totalFiles = allFiles?.length;
+   const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
+ 
 
    const getAllFiles = async () => {
       try {
          setLoading(true)
          const response = await getAllFilesRequest()
          const { data = [] } = response;
-         setAllFiles(data)
+         const filter = data.filter((item) => item.name !== 'Banner' && item.name != 'Socios')
+         setAllFiles(filter)
          setLoading(false)
       } catch (error) {
          console.log(error)
@@ -36,11 +39,10 @@ export default function ListFiles(props) {
 
    return (
       <>
-         <SectionHeader title={`Arquivos (${totalFiles})`} />
+         <SectionHeader title={`Ambientes (${totalFiles})`} />
          <SearchBar placeholder='Sala, Quarto, Cozinha...' onChange={setFilesFilter} />
-
          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-            {allFiles.filter(filteredCompanies).map(category => {
+            {allFiles.filter(filter).map(category => {
                const categoryName = category?.name;
                const categoryFiles = category.files;
                const categoryId = category._id;
@@ -48,23 +50,33 @@ export default function ListFiles(props) {
                   <ContentContainer gap={3} key={`list_all_files_${category._id}`}>
                      <Box sx={{ display: 'flex', gap: 1 }}>
                         <Text bold>{categoryName}</Text>
-                        <Text>{`(${categoryFiles.length})`}</Text>
+                        {/* <Text>{`(${categoryFiles.length})`}</Text> */}
                      </Box>
+                     <CustomDropzone
+                        txt={`Clique ou arraste aqui seus arquivos para upload.`}
+                        callback={(file) => {
+                           if (file?._id)
+                              getAllFiles()
+                           resetFields()
+                        }}
+                        categoryId={categoryId}
+                        sectionsSelect={section}
+                     />
                      <FilesGrid
                         files={categoryFiles}
                         reloadFiles={getAllFiles}
                         categoryId={categoryId}
+                        section={section}
                      />
                   </ContentContainer>
                )
             })}
          </Box>
-
       </>
    )
 }
 
-const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryId = null }) => {
+const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryId = null, section }) => {
 
    const { setLoading } = useAppContext()
    const [collapse, setCollapse] = useState(true)
@@ -73,7 +85,7 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
    return (
       <>
          <Box sx={{ ...styles.filesGridContainer, ...(files.length >= 20 && collapse && { height: 280 }) }}>
-            {files.map((file, index) => {
+            {files.filter((category) => category.section == section).map((file, index) => {
                let fileName = file.key.split('-')
                fileName.shift()
                fileName = fileName.join(' ')
