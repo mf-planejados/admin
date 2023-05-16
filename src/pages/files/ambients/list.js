@@ -10,15 +10,11 @@ export default function ListAmbients(props) {
 
    const [section, setSectionsSelect] = useState('Ambientes')
    const { user, setLoading, } = useAppContext()
-
    const [allFiles, setAllFiles] = useState([])
-   console.log(allFiles)
-
    const [filesFilter, setFilesFilter] = useState('')
-
-   const totalFiles = allFiles?.length;
+   const totalFiles = allFiles?.map((arr) => arr.files.filter((item) => item.section == section))
+   .reduce((acc, curr) => acc + curr.length, 0);
    const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
- 
 
    const getAllFiles = async () => {
       try {

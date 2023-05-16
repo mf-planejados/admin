@@ -15,7 +15,8 @@ export default function ListBanner(props) {
 
    const [filesFilter, setFilesFilter] = useState('')
 
-   const totalFiles = allFiles?.length;
+   const totalFiles = allFiles?.map((arr) => arr.files.filter((item) => item.section === section))
+   .reduce((acc, curr) => acc + curr.length, 0);
    const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
  
 
@@ -38,7 +39,7 @@ export default function ListBanner(props) {
 
    return (
       <>
-         <SectionHeader title={`Ambientes (${totalFiles})`} />
+         <SectionHeader title={`Banner (${totalFiles})`} />
          <SearchBar placeholder='Sala, Quarto, Cozinha...' onChange={setFilesFilter} />
          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             {allFiles.filter(filter).map(category => {
