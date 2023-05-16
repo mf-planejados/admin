@@ -20,7 +20,12 @@ const menuItems = [
       to: '/files/list',
       text: 'Arquivos',
       icon: 'files_icon',
-      items:[
+      items: [
+         {
+            to: '/files/galery/list',
+            text: 'Galeria',
+            icon: 'files_icon',
+         },
          {
             to: '/files/ambients/list',
             text: 'Ambientes',

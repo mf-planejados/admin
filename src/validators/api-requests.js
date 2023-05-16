@@ -88,6 +88,7 @@ export const getFilesByCategory = async (categoryId) => {
 }
 
 export const getAllFiles = async () => {
+
    try {
       const response = await api.get(`/files`)
       return response
@@ -95,6 +96,18 @@ export const getAllFiles = async () => {
       return error
    }
 }
+
+export const getAllFilesBySection = async (section) => {
+
+   let query = `?section=${section}`
+   try {
+      const response = await api.get(`/file/section${query}`)
+      return response
+   } catch (error) {
+      return error
+   }
+}
+
 
 export const editPassword = async (id, userData) => {
    try {

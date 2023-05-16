@@ -22,12 +22,10 @@ export default function ListBanner(props) {
     const [nameSelect, setNameSelect] = useState()
     const [levelSelect, setLevelSelect] = useState()
     const { user, setLoading, } = useAppContext()
-
     const [allFiles, setAllFiles] = useState([])
-
     const [filesFilter, setFilesFilter] = useState('')
-
-    const totalFiles = allFiles?.length;
+    const totalFiles = allFiles?.map((arr) => arr.files.filter((item) => item.section === section))
+    .reduce((acc, curr) => acc + curr.length, 0);
     const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
 
     const resetFields = () => {
@@ -61,7 +59,7 @@ export default function ListBanner(props) {
 
     return (
         <>
-            <SectionHeader title={`Ambientes (${totalFiles})`} />
+            <SectionHeader title={`Equipe (${totalFiles})`} />
             <SearchBar placeholder='Socio, Fundador, etc' onChange={setFilesFilter} />
             <Box>
                 <Text style={{ marginLeft: '5px' }}>Digite o nome do Sócio/Fundador:  </Text>
