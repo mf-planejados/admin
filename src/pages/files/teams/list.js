@@ -7,14 +7,14 @@ import { formatDate } from "../../../validators/auth-validator"
 
 const levels = [
     {
-       id: '01',
-       name: 'Sócio',
+        id: '01',
+        name: 'Sócio',
     },
     {
-       id: '02',
-       name: 'Fundador',
+        id: '02',
+        name: 'Fundador',
     },
- ]
+]
 
 export default function ListBanner(props) {
 
@@ -25,7 +25,7 @@ export default function ListBanner(props) {
     const [allFiles, setAllFiles] = useState([])
     const [filesFilter, setFilesFilter] = useState('')
     const totalFiles = allFiles?.map((arr) => arr.files.filter((item) => item.section === section))
-    .reduce((acc, curr) => acc + curr.length, 0);
+        .reduce((acc, curr) => acc + curr.length, 0);
     const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
 
     const resetFields = () => {
@@ -94,9 +94,10 @@ export default function ListBanner(props) {
                             <CustomDropzone
                                 txt={`Clique ou arraste aqui seus arquivos para upload.`}
                                 callback={(file) => {
-                                    if (file?._id)
+                                    if (file?._id) {
+                                        resetFields()
                                         getAllFiles()
-                                    resetFields()
+                                    }
                                 }}
                                 categoryId={categoryId}
                                 sectionsSelect={section}
