@@ -13,7 +13,7 @@ export default function ListAmbients(props) {
    const [allFiles, setAllFiles] = useState([])
    const [filesFilter, setFilesFilter] = useState('')
    const totalFiles = allFiles?.map((arr) => arr.files.filter((item) => item.section == section))
-   .reduce((acc, curr) => acc + curr.length, 0);
+      .reduce((acc, curr) => acc + curr.length, 0);
    const filter = (item) => item?.name?.toLowerCase().includes(filesFilter.toLowerCase());
 
    const getAllFiles = async () => {
@@ -53,7 +53,6 @@ export default function ListAmbients(props) {
                         callback={(file) => {
                            if (file?._id)
                               getAllFiles()
-                           resetFields()
                         }}
                         categoryId={categoryId}
                         sectionsSelect={section}
@@ -74,7 +73,7 @@ export default function ListAmbients(props) {
 
 const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryId = null, section }) => {
 
-   const { setLoading } = useAppContext()
+   const { setLoading, alert } = useAppContext()
    const [collapse, setCollapse] = useState(true)
    const [showDownloadOptions, setShowDownloadOptions] = useState({ open: false, index: null })
 
@@ -106,6 +105,7 @@ const FilesGrid = ({ files, readOnly = false, reloadFiles = () => { }, categoryI
                                  setLoading(true)
                                  event.preventDefault();
                                  await deleteFile({ fileId: file?._id, categoryId })
+                                 alert.success('Arquivo deletado com sucesso.');
                                  setLoading(false)
                                  reloadFiles()
                               }}>
