@@ -35,7 +35,7 @@ export default function Login() {
    useEffect(() => {
       setWindowWidth(window.innerWidth)
       window.addEventListener('resize', () => setWindowWidth(window.innerWidth))
-      document.title = `M&F admin - Login`
+      document.title = `M&F admin`
       return () => window.removeEventListener('resize', () => { });
    }, [])
 
@@ -131,6 +131,6 @@ const CompanyLogo = ({ size = 14 }) => (
       flex: 1,
       gap: 1
    }}>
-      <img src="/logo.png" alt="Green4T Illustration" style={{ height: `${size}%`, width: 'auto', objectFit: 'contain' }} />
+      <img src="/logo.png" alt="MF Planejados" style={{ height: `${size}%`, width: 'auto', objectFit: 'contain' }} />
    </Box>
 );
