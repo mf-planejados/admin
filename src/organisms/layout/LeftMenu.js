@@ -100,8 +100,8 @@ export const LeftMenu = ({ menuItems = [] }) => {
                      </Box>
                      <Box sx={{
                         ...styles.menuIcon,
-                        backgroundImage: showUserOptions ? `url('/icons/gray_arrow_up.png')` : `url('/icons/gray_arrow_down.png')`,
-
+                        backgroundImage: `url('/icons/gray_arrow_up.png')`,
+                        transform: showUserOptions ? 'rotate(0deg)' : 'rotate(180deg)'
                      }} />
 
                   </Box>

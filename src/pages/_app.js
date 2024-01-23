@@ -15,7 +15,16 @@ const menuItems = [
       text: 'Orçamentos',
       icon: 'companies_icon'
    },
-
+   {
+      to: '/testimonial/list',
+      text: 'Depoimentos',
+      icon: 'ratings_icon'
+   },
+   // {
+   //    to: '/products/list',
+   //    text: 'Produtos',
+   //    icon: 'product_icon'
+   // },
    {
       to: '/files/list',
       text: 'Arquivos',
