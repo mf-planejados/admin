@@ -1,4 +1,5 @@
 import { Box, Button, Text } from "../../atoms";
+import { Colors } from "../layout/Colors";
 
 export const SectionHeader = (props) => {
    const { title = '',
@@ -17,7 +18,8 @@ export const SectionHeader = (props) => {
             width: '100%',
             alignItems: 'center',
          }}>
-            <Box sx={{ display: 'flex', flex: 1, height: '100%', gap: 1 }}>
+            <Box sx={{ display: 'flex', flex: 1, height: '100%', gap: 3}}>
+               <Box sx={{display: 'flex', height: '90%', width: 8, backgroundColor: Colors?.red}}/>
                <Text title bold>{title}</Text>
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' }, gap: 1 }}>

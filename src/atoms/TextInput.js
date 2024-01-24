@@ -8,8 +8,9 @@ export const TextInput = (props) => {
    return (
       <TextField
          {...props}
+         variant="standard"
          InputProps={{
-            sx: { borderRadius: 2, fontSize: { xs: '12px', xm: '15px', md: '15px', lg: '15px' }, fontFamily: 'InterRegular', color: Colors.darkBlueText, ...InputProps?.style }
+            sx: { borderRadius: 2, fontSize: { xs: '12px', xm: '15px', md: '15px', lg: '15px' }, fontFamily: 'InterRegular', color: Colors.darkBlueText, marginLeft: 1,...InputProps?.style }
          }}
          InputLabelProps={{ style: { color: '#888' } }}
       />

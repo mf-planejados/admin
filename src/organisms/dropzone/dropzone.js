@@ -13,7 +13,8 @@ export const CustomDropzone = (props) => {
 
 
    const { setLoading, alert } = useAppContext()
-   const { callback = () => { }, categoryId = null, nameSelect = null, levelSelect = null, sectionsSelect = null, } = props;
+   const { callback = () => { }, categoryId = null, nameSelect = null, levelSelect = null, sectionsSelect = null,
+      product_id } = props;
 
    let namePerfil = nameSelect?.namePerfil
    let level = levelSelect?.name
@@ -42,7 +43,7 @@ export const CustomDropzone = (props) => {
       formData?.append('file', uploadedFile?.file, encodeURIComponent(uploadedFile?.name))
 
       try {
-         const response = await uploadFile({ formData, categoryId, namePerfil, level, section });
+         const response = await uploadFile({ formData, categoryId, namePerfil, level, section, product_id });
          const { data = {}, status } = response;
          const { file = {} } = data;
 
@@ -68,17 +69,26 @@ export const CustomDropzone = (props) => {
          <Dropzone accept={{ 'image/jpeg': ['.jpeg', '.jpg'], 'image/png': ['.png'], 'application/pdf': ['.pdf'] }} onDrop={onDropFiles}>
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
                <Box {...getRootProps()}
-                  style={{
+                  sx={{
                      ...styles.dropZoneContainer,
-                     backgroundColor: isDragActive && !isDragReject ? Colors : isDragReject ? '#ff000042' : ''
+                     backgroundColor: isDragActive && !isDragReject ? Colors : isDragReject ? '#ff000042' : '',
+                     gap: 2
                   }}
                >
                   <input {...getInputProps()} />
                   <Box style={{ textAlign: 'center', display: 'flex', fontSize: 12 }}>
-                     <Text small style={{ color: Colors.paleDarkBlue }}>
+                     <Text small light style={{ color: Colors.paleDarkBlue }}>
                         {props.txt || 'Clique ou arraste aqui seus arquivos para upload'}
                      </Text>
                   </Box>
+                  <Box sx={{
+                     ...styles.icon,
+                     backgroundImage: `url('/icons/upload_icon.png')`,
+                     mixBlendMode: 'multiply',
+                     backgroundSize: 'contain',
+                     width: 50,
+                     height: 50,
+                  }} />
                </Box>
             )}
          </Dropzone>
@@ -90,13 +100,21 @@ const styles = {
    dropZoneContainer: {
       display: 'flex',
       width: '100%',
-      padding: 40,
+      padding: '40px',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 10,
+      borderRadius: 2,
       flexDirection: 'column',
       border: `2px dashed ${Colors.paleDarkBlue + 'aa'}`,
       cursor: 'pointer',
 
-   }
+   },
+   icon: {
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
+      width: '15px',
+      height: '15px',
+      marginRight: '0px',
+   },
 }

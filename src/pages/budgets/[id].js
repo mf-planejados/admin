@@ -91,7 +91,7 @@ export default function EditBudgets(props) {
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
                         <Box sx={{ flexDirection: { xs: `column`, xm: 'row', md: 'row', lg: 'row' }, display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ width: '100%' }}>
-                                <Text style={{ ...styles.input }}>Nome: </Text>
+                                <Text bold style={{ ...styles.input }}>Nome: </Text>
                                 <TextInput placeholder='Nome' name='name' onChange={handleChange} value={budgetData?.name}
                                     InputProps={{
                                         style: {
@@ -100,22 +100,22 @@ export default function EditBudgets(props) {
                                     }} />
                             </Box>
                             <Box sx={{ width: '100%' }}>
-                                <Text style={{ ...styles.input }}>E-mail: </Text>
+                                <Text bold style={{ ...styles.input }}>E-mail: </Text>
                                 <TextInput placeholder='E-mail' name='email' onChange={handleChange} value={budgetData?.email} />
                             </Box>
                             <Box sx={{ width: '100%' }}>
-                                <Text style={{ ...styles.input }}>Telefone: </Text>
+                                <Text bold style={{ ...styles.input }}>Telefone: </Text>
                                 <TextInput placeholder='E-mail' name='email' onChange={handleChange} value={budgetData?.telephone} />
                             </Box>
                             <Box sx={{ width: '100%' }}>
-                                <Text style={{ ...styles.input }}>Data do envio: </Text>
+                                <Text bold style={{ ...styles.input }}>Data do envio: </Text>
                                 <TextInput placeholder='E-mail' name='email' onChange={handleChange} value={formatDate({ date: budgetData?.createdAt })} />
                             </Box>
 
                         </Box>
-                        <Text style={{ ...styles.input }}>Assunto: </Text>
+                        <Text bold style={{ ...styles.input }}>Assunto: </Text>
                         <TextInput placeholder='E-mail' name='email' onChange={handleChange} value={budgetData?.subject} />
-                        <Text style={{ ...styles.input }}>Menssagem: </Text>
+                        <Text bold style={{ ...styles.input }}>Menssagem: </Text>
                         <TextInput placeholder='E-mail' name='email' onChange={handleChange} value={budgetData?.message}
                             multiline
                             minRows={5}

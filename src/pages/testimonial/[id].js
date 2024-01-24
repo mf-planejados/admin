@@ -113,7 +113,7 @@ export default function EditTestemonial(props) {
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
                         <Box sx={{ flexDirection: { xs: `column`, xm: 'row', md: 'row', lg: 'row' }, display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ width: '100%' }}>
-                                <Text style={{ ...styles.input }}>Nome do Cliente: </Text>
+                                <Text bold style={{ ...styles.input }}>Nome do Cliente: </Text>
                                 <TextInput placeholder='ex: José Silva' name='clientName' onChange={handleChange} value={testimonialData?.clientName}
                                     InputProps={{
                                         style: {
@@ -122,7 +122,7 @@ export default function EditTestemonial(props) {
                                     }} />
                             </Box>
                         </Box>
-                        <Text style={{ ...styles.input }}>Menssagem/Feedback: </Text>
+                        <Text bold style={{ ...styles.input }}>Menssagem/Feedback: </Text>
                         <TextInput placeholder='Gostamos muito do atendimento...' name='message' onChange={handleChange} value={testimonialData?.message}
                             multiline
                             minRows={5}
