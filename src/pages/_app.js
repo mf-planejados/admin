@@ -20,11 +20,11 @@ const menuItems = [
       text: 'Depoimentos',
       icon: 'ratings_icon'
    },
-   // {
-   //    to: '/products/list',
-   //    text: 'Produtos',
-   //    icon: 'product_icon'
-   // },
+   {
+      to: '/product/list',
+      text: 'Produtos',
+      icon: 'product_icon'
+   },
    {
       to: '/files/list',
       text: 'Arquivos',
